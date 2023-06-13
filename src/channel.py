@@ -45,7 +45,6 @@ class Channel:
     def __eq__(self, other):
         return self.subscriber_count == other.subscriber_count
 
-
     # def print_info(self) -> None:
     #   """Выводит в консоль информацию о канале."""
     #   channel = youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
