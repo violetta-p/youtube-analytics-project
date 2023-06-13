@@ -15,11 +15,36 @@ class Channel:
         self.__channel_id = channel_id
         video_response = self.get_service().channels().list(id=self.channel_id, part='snippet,statistics').execute()
         self.title: str = video_response['items'][0]['snippet']['title']
-        self.url: str = video_response['items'][0]['snippet']['thumbnails']['default']['url']
+        self.url: str = "https://www.youtube.com/channel/" + channel_id
         self.description: str = video_response['items'][0]['snippet']['description']
-        self.view_count: int = video_response['items'][0]['statistics']['viewCount']
-        self.video_count: int = video_response['items'][0]['statistics']['videoCount']
-        self.subscriber_count: int = video_response['items'][0]['statistics']['subscriberCount']
+        self.view_count = int(video_response['items'][0]['statistics']['viewCount'])
+        self.video_count = int(video_response['items'][0]['statistics']['videoCount'])
+        self.subscriber_count = int(video_response['items'][0]['statistics']['subscriberCount'])
+
+    def __str__(self):
+        return f"{self.title} ({self.url})"
+
+    def __add__(self, other):
+        return self.subscriber_count + other.subscriber_count
+
+    def __sub__(self, other):
+        return self.subscriber_count - other.subscriber_count
+
+    def __lt__(self, other):
+        return self.subscriber_count < other.subscriber_count
+
+    def __le__(self, other):
+        return self.subscriber_count <= other.subscriber_count
+
+    def __gt__(self, other):
+        return self.subscriber_count > other.subscriber_count
+
+    def __ge__(self, other):
+        return self.subscriber_count >= other.subscriber_count
+
+    def __eq__(self, other):
+        return self.subscriber_count == other.subscriber_count
+
 
     # def print_info(self) -> None:
     #   """Выводит в консоль информацию о канале."""
