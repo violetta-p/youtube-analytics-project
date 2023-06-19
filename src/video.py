@@ -7,12 +7,18 @@ class Video:
         """Экземпляр инициализируется id канала.
         Дальше все данные подтягиваются по API."""
         self.__video_id = video_id
-        video_response = self.get_video().videos().list(part='snippet,statistics,contentDetails,topicDetails',
-                                       id=self.video_id).execute()
-        self.url: str = "https://www.youtube.com/watch?v=" + video_id
-        self.video_title: str = video_response['items'][0]['snippet']['title']
-        self.view_count: int = video_response['items'][0]['statistics']['viewCount']
-        self.like_count: int = video_response['items'][0]['statistics']['likeCount']
+        try:
+            video_response = self.get_video().videos().list(part='snippet,statistics,contentDetails,topicDetails',
+                                                            id=self.video_id).execute()
+            self.url: str = "https://www.youtube.com/watch?v=" + video_id
+            self.video_title: str = video_response['items'][0]['snippet']['title']
+            self.view_count: int = video_response['items'][0]['statistics']['viewCount']
+            self.like_count: int = video_response['items'][0]['statistics']['likeCount']
+        except:
+            self.url = None
+            self.video_title = None
+            self.view_count = None
+            self.like_count = None
 
     def __str__(self):
         return f"{self.video_title}"
