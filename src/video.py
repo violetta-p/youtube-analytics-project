@@ -11,17 +11,17 @@ class Video:
             video_response = self.get_video().videos().list(part='snippet,statistics,contentDetails,topicDetails',
                                                             id=self.video_id).execute()
             self.url: str = "https://www.youtube.com/watch?v=" + video_id
-            self.video_title: str = video_response['items'][0]['snippet']['title']
+            self.title: str = video_response['items'][0]['snippet']['title']
             self.view_count: int = video_response['items'][0]['statistics']['viewCount']
             self.like_count: int = video_response['items'][0]['statistics']['likeCount']
-        except:
+        except (KeyError, IndexError):
             self.url = None
-            self.video_title = None
+            self.title = None
             self.view_count = None
             self.like_count = None
 
     def __str__(self):
-        return f"{self.video_title}"
+        return f"{self.title}"
 
     @property
     def video_id(self):
